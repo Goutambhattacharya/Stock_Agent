@@ -10,6 +10,7 @@ openai
 python-dotenv
 
 # Finance / Data APIs
+gunicorn
 yfinance
 pandas
 google-search-results   # SerpAPI client
