@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📈 Stock Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .disclaimer {
+            font-family: "Courier New", monospace; /* Different font */
+            font-size: 0.95rem;
+            color: #d9534f; /* Bright red */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="container mt-4">
+<h1 class="mb-1">📈 Stock Dashboard</h1>
+<p class="disclaimer">⚠️ Not An Investment Recommendation</p>
+<hr>
+<!-- Search Form -->
+<form method="POST" class="mb-4 row g-3">
+    <div class="col-auto">
+        <input type="text" name="ticker" placeholder="Enter Stock Ticker" class="form-control" required>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Get Info</button>
+    </div>
+</form>
+{% if results %}
+    {% if results.error %}
+        <div class="alert alert-danger">{{ results.error }}</div>
+    {% else %}
+        <!-- Stock Summary -->
+        <div class="card mb-3 p-3">
+            <h3>{{ results.ticker }} — 
+                <span style="color: {% if 'Bullish' in results.summary %}green{% elif 'Bearish' in results.summary %}red{% else %}blue{% endif %}">
+                    {{ results.summary }}
+                </span>
+            </h3>
+            <p>Price: {{ results.price }} {{ results.currency }} | Exchange: {{ results.exchange }} | Volume: {{ results.volume }}</p>
+            <p>RSI: {{ results.rsi }} | MA20: {{ results.ma20 }} | MA50: {{ results.ma50 }}</p>
+            <p>Market Cap: {{ results.market_cap }} | P/E Ratio: {{ results.pe_ratio }}</p>
+            <p>52W High / Low: {{ results['52w_high'] }} / {{ results['52w_low'] }}</p>
+        </div>
+        
+        <!-- News -->
+        {% if results.news %}
+            <h4 class="mt-4">📰 Recent News</h4>
+            <ul>
+                {% for item in results.news %}
+                    <li>{{ item.published }} — <a href="{{ item.link }}" target="_blank">{{ item.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        <!-- Corporate Actions -->
+        {% if results.corporate_actions %}
+            <h4 class="mt-4">🏢 Corporate Actions</h4>
+            <ul>
+                {% for ca in results.corporate_actions %}
+                    <li>{{ ca.date }} — {{ ca.type }}: {{ ca.value }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        <!-- Download CSV Button -->
+        <div class="mt-4">
+            <a href="/download/{{ results.ticker }}" class="btn btn-success">Download CSV</a>
+        </div>
+    {% endif %}
+{% endif %}
+</body>
+</html>

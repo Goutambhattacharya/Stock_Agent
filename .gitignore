@@ -1,0 +1,12 @@
+﻿# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+newvnv1/
+
+# Environment variables
+.env
+
+# VSCode settings (optional, if present)
+.vscode/

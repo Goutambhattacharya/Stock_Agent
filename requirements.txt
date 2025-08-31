@@ -1,0 +1,21 @@
+# LLM + Agents
+langchain
+langgraph
+langchain-core
+langchain-mcp-adapters
+langgraph-supervisor
+openai
+
+# Environment Variables
+python-dotenv
+
+# Finance / Data APIs
+yfinance
+pandas
+google-search-results   # SerpAPI client
+feedparser
+pytz
+Flask
+
+# Optional: plotting / visualization (for RSI, Pivot analysis)
+matplotlib
